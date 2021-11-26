@@ -6,6 +6,7 @@ const {
   isDeleteAllUrl,
   getDeleteIds,
   checkRequest,
+  stripHtmlObj,
 } = require('./helper');
 
 /**
@@ -69,6 +70,10 @@ const createOrUpdateData = async (body, targetModel, id) => {
   }
 
   if (!data || !id) return;
+
+  if (targetModel.stripHtml) {
+    data = stripHtmlObj(data)
+  }
 
   await strapi.elastic.createOrUpdate(targetModel.model, { id, data });
 };

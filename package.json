@@ -11,7 +11,8 @@
     "@opensearch-project/opensearch": "^1.0.0",
     "axios": "^0.20.0",
     "lodash": "^4.17.21",
-    "moment": "^2.27.0"
+    "moment": "^2.27.0",
+    "string-strip-html": "^8.3.0"
   },
   "author": {
     "name": "Ali Marefati",

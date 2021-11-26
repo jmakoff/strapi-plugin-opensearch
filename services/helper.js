@@ -1,5 +1,6 @@
 'user strict';
 
+const { stripHtml }  = require('string-strip-html');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
@@ -472,4 +473,37 @@ module.exports = {
 
     //
   },
+
+  stripHtmlObj(data) {
+    function stripObjectValues(obj) {
+      const keys = Object.keys(obj)
+      keys.forEach(key => {
+        if (obj[key]) {
+          if (typeof obj[key] === 'string') {
+            obj[key] = stripHtml(obj[key]).result
+            return
+          }
+          if (Array.isArray(obj[key])) {
+            obj[key] = obj[key].map(it => {
+              if (typeof it === "string") {
+                return stripHtml(it).result
+              }
+              if (typeof it === 'object') {
+                return stripObjectValues(it)
+              }
+              return it
+            })
+            return
+          }
+          if (typeof obj[key] === 'object') {
+            obj[key] = stripObjectValues(obj[key])
+          }
+        }
+      })
+
+      return obj
+    }
+
+    return stripObjectValues(data)
+  }
 };
